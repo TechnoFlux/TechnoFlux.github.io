@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abhishek Joshi | Offensive Security</title>
+<meta name="description" content="Abhishek Joshi. Web application and Active Directory testing, plus the tooling that automates it. Author of Auto AD Recon.">
+<link rel="canonical" href="https://technoflux.github.io/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Abhishek Joshi | Offensive Security">
+<meta property="og:description" content="Web application and Active Directory testing, plus the tooling that automates it.">
+<meta property="og:url" content="https://technoflux.github.io/">
+<meta name="twitter:card" content="summary">
+
+<link rel="preload" href="./assets/css/style.css" as="style">
+<link rel="stylesheet" href="./assets/css/style.css">
+
+<script>document.documentElement.classList.add('js')</script>
+
+<script type="importmap">
+{ "imports": { "three": "./vendor/three.module.js" } }
+</script>
+</head>
+<body>
+
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="#top"><span class="dot"></span>technoflux</a>
+  <nav>
+    <a href="#focus">Focus</a>
+    <a href="#work">Work</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow reveal">Offensive Security</p>
+      <h1 class="reveal">Abhishek&nbsp;Joshi</h1>
+      <p class="lede reveal">
+        I test web applications and Active&nbsp;Directory environments.
+        When the work gets repetitive, I write my own tooling for it.
+      </p>
+      <div class="cta reveal">
+        <a class="btn primary" href="#work">View work</a>
+        <a class="btn" href="https://github.com/TechnoFlux" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn" href="https://www.linkedin.com/in/reverse-shell" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+    </div>
+    <div class="scroll-cue" aria-hidden="true"><span></span>scroll</div>
+  </section>
+
+  <section id="focus" class="section">
+    <h2 class="h2 reveal"><span class="idx">01</span> Focus</h2>
+    <div class="grid">
+
+      <article class="card reveal">
+        <h3>Web Application</h3>
+        <p>
+          Authentication and session handling, broken access control and IDOR,
+          injection (SQL, command, template), SSRF, deserialization, and file
+          upload chains. Source-assisted where the code is available, black box
+          where it isn't.
+        </p>
+      </article>
+
+      <article class="card reveal">
+        <h3>Active Directory</h3>
+        <p>
+          Domain enumeration over SMB and LDAP. Kerberoasting, AS-REP roasting,
+          and delegation abuse. ADCS misconfigurations (ESC1 through ESC8), ACL
+          and DACL abuse paths, LAPS, and movement across trusts.
+        </p>
+      </article>
+
+      <article class="card reveal">
+        <h3>Tooling/Scripting</h3>
+        <p>
+          Tooling for the parts of an engagement that repeat. I write mine in Go,
+          Rust, and Python, and read most other languages well enough to follow a
+          codebase during source review.
+        </p>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="work" class="section">
+    <h2 class="h2 reveal"><span class="idx">02</span> Work</h2>
+
+    <article class="card wide reveal">
+      <div class="card-head">
+        <h3>Auto AD Recon</h3>
+        <span class="pill">★ 19</span>
+        <span class="pill">Python</span>
+      </div>
+      <p>
+        A modular Python wrapper around
+        <a href="https://github.com/Pennyw0rth/NetExec" target="_blank" rel="noopener">NetExec</a>
+        for Active Directory enumeration over SMB and LDAP. Built for internal
+        pentests, red teams, and AD-heavy CTFs. It runs the enumeration I'd
+        otherwise type by hand at the start of every engagement.
+      </p>
+      <ul class="feats">
+        <li>Password, NTLM hash, and null session authentication</li>
+        <li>Parallel execution of built-in and custom NetExec modules</li>
+        <li>ADCS misconfiguration detection, ESC1 through ESC8</li>
+        <li>ACL parsing for GenericAll, WriteDACL, and similar rights</li>
+        <li>LAPS credential extraction, trusts, group membership, machine quota</li>
+        <li>Optional BloodHound-compatible collection</li>
+      </ul>
+      <p class="links">
+        <a href="https://github.com/TechnoFlux/auto-ad-recon-netexec" target="_blank" rel="noopener">Source ↗</a>
+      </p>
+    </article>
+  </section>
+
+  <section id="contact" class="section">
+    <h2 class="h2 reveal"><span class="idx">03</span> Contact</h2>
+    <div class="card wide reveal">
+      <p class="contact-line">
+        Open to offensive security work: internal network, Active Directory, and
+        web application assessments.
+      </p>
+      <p class="links">
+        <a href="https://www.linkedin.com/in/reverse-shell" target="_blank" rel="noopener">linkedin.com/in/reverse-shell ↗</a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span>© <span id="yr">2026</span> Abhishek Joshi</span>
+  <span class="mono">technoflux.github.io</span>
+</footer>
+
+<script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+
+<script>
+(function () {
+  var els = document.querySelectorAll('.reveal');
+  function showAll() { for (var i = 0; i < els.length; i++) els[i].classList.add('in'); }
+  if (!('IntersectionObserver' in window)) { showAll(); return; }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      io.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
+  for (var i = 0; i < els.length; i++) io.observe(els[i]);
+  setTimeout(showAll, 2500);
+})();
+</script>
+
+<script type="module" src="./assets/js/scene.js"></script>
+</body>
+</html>
