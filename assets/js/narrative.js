@@ -9,6 +9,12 @@ let frame = 0;
 let height = innerHeight;
 let header = document.querySelector('.header').offsetHeight;
 const reels = [];
+// Mobile browser chrome expands/collapses while scrolling. Use a stable small
+// viewport for pinned chapters so those toolbar resizes do not move the story.
+const viewportProbe = document.createElement('div');
+viewportProbe.setAttribute('aria-hidden', 'true');
+viewportProbe.style.cssText = 'position:fixed;top:0;width:0;height:100svh;visibility:hidden;pointer-events:none';
+document.body.append(viewportProbe);
 
 function createReel(selector, kind, travel) {
   const stage = document.querySelector(selector);
@@ -35,6 +41,8 @@ function controls(entry, labels, values = labels.map((_, i) => i / Math.max(1, l
   entry.stage.append(group); entry.buttons = buttons;
 }
 function setCurrent(entry, index) {
+  if (entry.current === index) return;
+  entry.current = index;
   entry.buttons?.forEach((button, i) => button.setAttribute('aria-current', i === index ? 'step' : 'false'));
 }
 const research = createReel('#work', 'research', 155);
@@ -98,7 +106,9 @@ toggle.addEventListener('click', () => { reading = !reading; mode(); });
 reduced.addEventListener('change', () => { reading = reduced.matches; mode(); });
 
 function measure() {
-  height = innerHeight; header = document.querySelector('.header').offsetHeight;
+  height = matchMedia('(max-width:700px)').matches ? (viewportProbe.offsetHeight || innerHeight) : innerHeight;
+  header = document.querySelector('.header').offsetHeight;
+  root.style.setProperty('--viewport-height', `${height}px`);
   root.style.setProperty('--chapter-height', `${Math.max(540, height - header)}px`);
   root.style.setProperty('--header-height', `${header}px`);
   request();
@@ -107,10 +117,19 @@ function update() {
   frame = 0;
   if (reading) return;
   const viewport = height - header;
-  for (const entry of reels) {
-    const bounds = entry.reel.getBoundingClientRect();
+  // Read geometry together before changing styles: avoid layout work per card.
+  const snapshots = reels.map(entry => ({ entry, bounds: entry.reel.getBoundingClientRect(), travel: entry.reel.offsetHeight - entry.stage.offsetHeight }));
+  const workDistance = Math.max(0, workTrack.scrollWidth - workWindow.clientWidth);
+  const certWidth = certWindow.clientWidth;
+  const certDistance = Math.max(0, certTrack.scrollWidth - certWidth);
+  const certCenters = certs.map(card => card.offsetLeft + card.offsetWidth / 2);
+  const approachTop = approach.offsetTop - scrollY;
+  const ar = { top: approachTop, height: approach.offsetHeight, bottom: approachTop + approach.offsetHeight };
+  const rowTops = disciplines.map(row => row.getBoundingClientRect().top);
+  const pr = proof.getBoundingClientRect();
+  for (const { entry, bounds, travel } of snapshots) {
     if (bounds.bottom < 0 || bounds.top > height * 1.3) continue;
-    const p = clamp((header - bounds.top) / Math.max(1, entry.reel.offsetHeight - entry.stage.offsetHeight));
+    const p = clamp((header - bounds.top) / Math.max(1, travel));
     entry.p = p; entry.reel.style.setProperty('--p', p);
     // Animate the whole chapter during the viewport handoff, not only its heading.
     const entering = clamp((height - bounds.top) / viewport);
@@ -138,7 +157,7 @@ function update() {
     }
     if (entry.kind === 'tools') {
       const slide = ease(clamp((p - .16) / .72));
-      const distance = Math.max(0, workTrack.scrollWidth - workWindow.clientWidth);
+      const distance = workDistance;
       workTrack.style.transform = `translate3d(${-slide * distance}px,0,0)`;
       document.querySelector('.terminal').style.transform = `perspective(950px) rotateY(${-9 + Math.min(1,p*4)*9}deg) rotateX(${8-Math.min(1,p*4)*8}deg)`;
       terminalLines.forEach((line, i) => line.style.opacity = .18 + .82 * clamp(p * 8 - i + 1));
@@ -153,18 +172,20 @@ function update() {
         const offset = i - position;
         card.style.transform = `translate3d(${Math.max(0,offset)*15}px,${offset<0?offset*115:offset*16}%,${-Math.abs(offset)*65}px) rotateX(${offset<0?-offset*9:0}deg)`;
         card.style.opacity = offset < 0 ? clamp(1 + offset * 2) : 1;
-        card.classList.toggle("is-active", i === current);
+        if (card.getAttribute("aria-hidden") !== String(i !== current)) {
+          card.classList.toggle("is-active", i === current);
+          card.inert = i !== current;
+          card.setAttribute("aria-hidden", String(i !== current));
+        }
         card.style.zIndex = String(10 - i);
-        card.inert = i !== current;
-        card.setAttribute('aria-hidden', String(i !== current));
       });
     }
     if (entry.kind === 'credentials') {
-      const distance = Math.max(0, certTrack.scrollWidth - certWindow.clientWidth);
+      const distance = certDistance;
       certTrack.style.transform = `translate3d(${-p * distance}px,0,0)`;
       certs.forEach((card, i) => {
-        const center = card.offsetLeft - p * distance + card.offsetWidth / 2;
-        const relative = (center - certWindow.clientWidth / 2) / certWindow.clientWidth;
+        const center = certCenters[i] - p * distance;
+        const relative = (center - certWidth / 2) / Math.max(1, certWidth);
         const tilt = clamp(relative, -.6, .6) * -24;
         card.style.transform = `perspective(900px) rotateY(${tilt}deg) translateY(${Math.abs(relative)*14}px)`;
       });
@@ -174,8 +195,6 @@ function update() {
       entry.stage.style.setProperty('--finish', ease(p));
     }
   }
-  const approachTop = approach.offsetTop - scrollY;
-  const ar = { top: approachTop, height: approach.offsetHeight, bottom: approachTop + approach.offsetHeight };
   if (ar.top < height && ar.bottom > 0) {
     const entrance = ease(clamp((height - ar.top) / (viewport * .65)));
     approach.style.setProperty('--section-entry', entrance);
@@ -184,13 +203,11 @@ function update() {
     approach.style.setProperty('--scan', scan);
     const ap = clamp((height * .75 - ar.top) / Math.max(1, ar.height));
     approach.style.setProperty('--approach', ap);
-    disciplines.forEach(row => {
-      const r = row.getBoundingClientRect();
-      const d = clamp((height * .9 - r.top) / (height * .55));
+    disciplines.forEach((row, i) => {
+      const d = clamp((height * .9 - rowTops[i]) / (height * .55));
       row.style.setProperty('--row', d);
     });
   }
-  const pr = proof.getBoundingClientRect();
   if (pr.top < height && pr.bottom > 0) proof.style.setProperty('--proof', clamp((height - pr.top) / (height * .45)));
 }
 function request() { if (!frame) frame = requestAnimationFrame(update); }

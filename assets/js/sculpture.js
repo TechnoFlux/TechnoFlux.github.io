@@ -38,7 +38,7 @@ function circuitTexture() {
 export function createSculpture(canvas, isStory) {
   const host = canvas.parentElement;
   const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, innerWidth < 700 ? 1.35 : 1.7));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, innerWidth < 700 ? 1.2 : 1.7));
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = .98;
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(34, 1, .1, 70);
@@ -103,25 +103,28 @@ export function createSculpture(canvas, isStory) {
   orbit.rotation.x = .8; orbit.rotation.y = .3; scene.add(orbit);
   let handoff = 0, desired = 0, current = 0, paused = false, visible = true, frame = 0, dirty = true;
   const pointer = { x: 0, y: 0 };
-  let width = 1, height = 1;
+  let width = 1, height = 1, lastTime = 0;
+  function stop() { cancelAnimationFrame(frame); frame = 0; }
   function resize() {
     width = host.clientWidth; height = host.clientHeight;
     renderer.setSize(width, height, false); camera.aspect = width / Math.max(height, 1); camera.updateProjectionMatrix(); dirty = true; start();
   }
   const resizeObserver = new ResizeObserver(resize); resizeObserver.observe(host);
-  const visibility = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; if (visible) start(); else cancelAnimationFrame(frame); }, { threshold: 0 }); visibility.observe(host);
+  const visibility = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; if (visible) start(); else stop(); }, { threshold: 0 }); visibility.observe(host);
   host.addEventListener('pointermove', event => {
     if (event.pointerType === 'touch') return;
     const r = host.getBoundingClientRect(); pointer.x = (event.clientX - r.left) / r.width - .5; pointer.y = (event.clientY - r.top) / r.height - .5; dirty = true; start();
   }, { passive: true });
   host.addEventListener('pointerleave', () => { pointer.x = pointer.y = 0; dirty = true; start(); });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) cancelAnimationFrame(frame); else start(); });
-  canvas.addEventListener('webglcontextlost', event => { event.preventDefault(); cancelAnimationFrame(frame); host.classList.remove('webgl-ready'); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
+  canvas.addEventListener('webglcontextlost', event => { event.preventDefault(); stop(); host.classList.remove('webgl-ready'); });
   canvas.addEventListener('webglcontextrestored', () => location.reload());
   function draw(time) {
     if (!visible || document.hidden) { frame = 0; return; }
     const t = paused ? 0 : time * .001;
-    current += (desired - current) * (paused ? 1 : .085);
+    const delta = Math.min(.05, lastTime ? (time - lastTime) / 1000 : 1 / 60);
+    lastTime = time;
+    current += (desired - current) * (paused ? 1 : 1 - Math.exp(-delta / .18));
     const separation = Math.min(1, current);
     const trace = Math.max(0, current - 1);
     layers.forEach((layer, i) => {
@@ -151,12 +154,12 @@ export function createSculpture(canvas, isStory) {
     frame = 0;
     if (!paused || Math.abs(current - desired) > .002) frame = requestAnimationFrame(draw);
   }
-  function start() { if (frame) cancelAnimationFrame(frame); if (visible && !document.hidden) frame = requestAnimationFrame(draw); }
+  function start() { if (!frame && visible && !document.hidden) frame = requestAnimationFrame(draw); }
   resize();
   return {
-    setHandoff(value) { handoff = value; dirty = true; start(); },
+    setHandoff(value) { if (handoff === value) return; handoff = value; dirty = true; start(); },
     setMode(value) { desired = value; dirty = true; start(); },
-    setProgress(value) { desired = value * 2; dirty = true; start(); },
+    setProgress(value) { if (desired === value * 2) return; desired = value * 2; dirty = true; start(); },
     setPaused(value) { paused = value; dirty = true; start(); }
   };
 }
