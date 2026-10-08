@@ -1,0 +1,169 @@
+/* Whole-page native scroll narrative; ordinary document flow is the fallback. */
+#reading-mode{color:#b9cce3;border:1px solid #34465e;border-radius:20px;background:none;padding:8px 13px;font-size:11px;min-height:36px}
+.reel-controls,.reel-progress,.chain-note,.career-year,.cert-seal{display:none}.work-window,.cert-window{min-width:0}.tools .work-pair{margin-top:0}.tools{padding-top:10px}
+:root{--header-height:94px;--chapter-height:calc(100svh - 94px)}
+.cinema .reel{height:calc(var(--chapter-height) + var(--travel)*1vh);position:relative;--p:0;--arrival:1}
+.cinema .reel-stage{position:sticky;top:var(--header-height);height:var(--chapter-height);min-height:540px;padding:34px 0 74px;display:flex;flex-direction:column;justify-content:center;overflow:hidden;max-width:1360px;margin:0 auto;width:90%;border-top:0}
+.cinema .reel .section-heading{flex:none;margin-bottom:30px;align-items:center;transform:translateY(calc((1 - var(--arrival))*35px));opacity:calc(.25 + var(--arrival)*.75)}
+.cinema .reel .section-heading h2{font-size:clamp(38px,4.5vw,65px);line-height:1.02}
+.cinema .reel .section-heading .eyebrow{margin-bottom:13px}
+.cinema .reel .section-heading>p{font-size:13px}
+.cinema .reel-controls{position:absolute;bottom:20px;left:0;right:0;display:flex;justify-content:center;gap:12px;z-index:12}
+.cinema .reel-controls button{border:1px solid #354961;background:#0d1726;color:#90a7c3;font-size:11px;border-radius:25px;padding:10px 18px;min-height:38px}
+.cinema .reel-controls button[aria-current=step]{background:#c3d8f1;color:#0c1c31;border-color:#c3d8f1}
+.cinema .reel-progress{display:block;position:absolute;bottom:0;left:0;right:0;height:2px;background:#a3c7f1;transform:scaleX(var(--p));transform-origin:left;z-index:15}
+/* A staged, spatial reveal of the actual published chain. */
+.cinema .research-reel{background:radial-gradient(ellipse at 15% 55%,#1b375750,transparent 68%)}
+.cinema .research-feature{min-height:0;max-height:520px;flex:1;transform:scale(calc(.94 + .06*var(--arrival)));transform-origin:center;will-change:transform}
+.cinema .research-art{min-height:0;perspective:900px}
+.cinema .research-copy{display:flex;flex-direction:column;justify-content:center;padding:30px 36px}
+.cinema .research-copy h3{font-size:clamp(28px,3vw,40px);margin-bottom:12px}
+.cinema .research-copy>p:not(.eyebrow){font-size:14px;margin-top:12px}
+.cinema .research-copy .eyebrow{margin-bottom:18px}
+.cinema .research-copy .light{align-self:start;margin-top:21px}
+.cinema .chain{transform-style:preserve-3d;will-change:transform}
+.cinema .chain-node{transition:border-color .25s,box-shadow .25s;will-change:transform,opacity}
+.cinema .chain-node.chain-active{border-color:#cce4ff;box-shadow:8px 12px 0 #080d1870,0 0 60px #91bdf426}
+.cinema .chain-node.final-node.chain-active{border-color:#f0b797;box-shadow:8px 12px 0 #080d1870,0 0 60px #e59f7035}
+.cinema .chain-connector{transform-origin:left center;height:2px;will-change:transform}
+.cinema .chain-note{display:block;position:absolute;bottom:52px;left:30px;right:24px;font-size:13px;max-width:270px;color:#c2d4eb}
+.cinema .art-bottom{font-size:9px;bottom:24px}
+/* Scroll from a dimensional terminal to responsible disclosure. */
+.cinema .tools-reel{background:#0d1624}
+.cinema .work-window{overflow:clip;flex:1;min-height:0;padding:8px 0 12px}
+.cinema .work-pair{display:flex;gap:30px;width:100%;height:100%;will-change:transform}
+.cinema .tool-project,.cinema .recognition{flex:0 0 74%;height:100%;min-height:0;padding:32px 45px;display:flex;flex-direction:column;justify-content:center;border-radius:16px;overflow:hidden}
+.cinema .tool-project{background:radial-gradient(ellipse at 100% 100%,#21436355,transparent 75%),#101c2e;position:relative}
+.cinema .tool-project h3{font-size:clamp(32px,4vw,57px)}
+.cinema .tool-project>p{font-size:14px;max-width:470px;margin-top:16px}
+.cinema .tool-project .project-heading{max-width:100%}
+.cinema .terminal{position:absolute;left:52%;right:4%;top:30%;bottom:22%;margin:0;min-height:175px;box-shadow:0 25px 60px #0007;will-change:transform}
+.cinema .terminal-body{font-size:12px;padding:22px 18px}.cinema .terminal-body small{display:block;float:none;margin-left:20px;font-size:10px}
+.cinema .tool-project .eyebrow,.cinema .tool-project>p{max-width:42%}
+.cinema .tool-project .project-link{margin-top:25px;max-width:42%;width:100%}
+.cinema .recognition{flex-basis:74%;background:radial-gradient(circle at 100% 0,#e3edf8,#b6cce4);color:#1b304b}
+.cinema .recognition h3{font-size:clamp(48px,5.5vw,78px);margin-top:0}
+.cinema .recognition .eyebrow{margin-top:0}
+.cinema .recognition>p{font-size:15px;max-width:420px}
+.cinema .recognition-mark{font-size:350px;right:2%;top:-60px;color:#91acc759;transform:rotate(calc(var(--p)*70deg))}
+.cinema .recognition .project-link{margin-top:28px;max-width:420px}
+/* A quieter chapter: text and rules respond directly to reading progress. */
+.cinema .approach{padding-top:115px;padding-bottom:115px;--approach:0}
+.cinema .approach h2{background:linear-gradient(100deg,#d8e7fc calc(var(--approach)*150%),#536984 calc(var(--approach)*150% + 20%));background-clip:text;-webkit-background-clip:text;color:transparent}
+.cinema .disciplines details{position:relative;--row:0;transform:perspective(1000px) rotateX(calc((1 - var(--row))*6deg)) translateY(calc((1 - var(--row))*25px));opacity:calc(.45 + var(--row)*.55)}
+.cinema .disciplines details:after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:#a4c5ef;transform:scaleX(var(--row));transform-origin:left;pointer-events:none}
+/* Career cards turn over in chronological context without losing the dates. */
+.cinema .experience-reel{background:radial-gradient(ellipse at 85% 60%,#25456655,transparent 65%)}
+.cinema .experience.reel-stage{display:grid;grid-template-columns:.85fr 1.15fr;gap:8%;align-items:center}
+.cinema .experience-intro{position:static;align-self:center}
+.cinema .experience-intro h2{font-size:clamp(36px,4.5vw,63px)}
+.cinema .timeline{position:relative;min-height:440px;height:62%;perspective:1100px;transform-style:preserve-3d}
+.cinema .timeline article{position:absolute;inset:0;padding:40px;border:1px solid #3b506a;border-radius:15px;background:linear-gradient(130deg,#1b2d44,#0d192a);overflow:hidden;will-change:transform,opacity;backface-visibility:hidden;box-shadow:0 20px 60px #0003}
+.cinema .timeline article:before{display:none}
+.cinema .timeline article h3{font-size:36px;position:relative;margin-top:85px}
+.cinema .timeline article p{font-size:14px;line-height:1.7}
+.cinema .career-year{display:block;position:absolute;right:18px;top:5px;font-family:Bricolage,Geist,sans-serif;font-size:116px;line-height:1;color:#83a5d021;letter-spacing:-.07em}
+.cinema .timeline .date{position:relative;color:#b6d3f4}
+/* All ten credentials form one continuous gallery, rather than a small footnote. */
+.cinema .credentials-reel{background:#c6d6e8;color:#122237}
+.cinema .credentials.reel-stage{gap:20px;justify-content:center}
+.cinema .credentials>div:first-child{position:relative;top:auto;display:grid;grid-template-columns:1fr 1fr;gap:0 10%;padding-bottom:8px}
+.cinema .credentials .eyebrow{color:#506780;grid-column:1;margin-bottom:15px}
+.cinema .credentials h2{font-size:clamp(38px,4.2vw,60px);grid-column:1;grid-row:2/4}
+.cinema .credentials>div>p:not(.eyebrow){grid-column:2;grid-row:2;font-size:14px;color:#425b76;margin:0 0 20px;max-width:390px}
+.cinema .credentials .text-link{grid-column:2;grid-row:3;justify-self:start;align-self:start;border-color:#6983a3;font-size:12px}
+.cinema .cert-window{overflow:clip;min-height:0;flex:1;max-height:390px;perspective:1300px;padding:20px 5px 25px}
+.cinema .cert-list{display:flex;gap:25px;height:100%;width:100%;will-change:transform;transform-style:preserve-3d}
+.cinema .cert-item{flex:0 0 268px;padding:28px 25px;background:linear-gradient(135deg,#eff5fd,#b9cde5);border:1px solid #eaf3ff;border-radius:13px;color:#213c5d;box-shadow:8px 12px 15px #516c8a22,inset 0 0 0 5px #fff3;will-change:transform;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden}
+.cinema .cert-item:after{content:'';height:1px;position:absolute;bottom:22px;left:26px;right:26px;background:#8ba8c6}
+.cinema .cert-item h3{font-size:40px;color:#17385f;letter-spacing:-.06em;margin-top:13px}
+.cinema .cert-item>span{font-size:11px;color:#496685;margin-top:15px}
+.cinema .cert-item p{color:#3a597b;font-size:12px}
+.cinema .cert-seal{display:block;width:78px;height:78px;color:#6b8baa}
+.cert-seal svg{width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:1.5}.cert-seal svg path:last-child{stroke-width:2.5}
+.cinema .credentials .reel-controls button{background:transparent;border-color:#7e9bbc;color:#3d5773}
+.cinema .credentials .reel-controls button[aria-current=step]{background:#1a3456;color:#e4eefb;border-color:#1a3456}
+.cinema .credentials .reel-progress{background:#2b4d75}
+/* The final frame opens up into the invitation. */
+.cinema .contact-reel{background:#080d18}
+.cinema .contact.reel-stage{padding-top:55px;justify-content:center;--finish:0;background:radial-gradient(ellipse at calc(95% - var(--finish)*45%) 60%,#284f7a55,transparent 65%)}
+.cinema .contact h2{transform:translateX(calc((1 - var(--finish))*4vw)) scale(calc(1.12 - var(--finish)*.12));transform-origin:left center;font-size:clamp(80px,11vw,150px)}
+.cinema .contact-bottom{transform:translateY(calc((1 - var(--finish))*30px));opacity:calc(.35 + var(--finish)*.65);margin-top:35px}
+.cinema .contact .socials{margin-top:45px}
+.cinema .proof{transform:scale(calc(.94 + var(--proof,1)*.06));opacity:calc(.3 + var(--proof,1)*.7);padding:55px 0;margin-top:0;margin-bottom:0}
+/* Reading mode removes all cinematic positioning, not just its animation. */
+.reading .intro-sequence{height:auto}.reading .intro-sequence .hero{position:relative;top:0}.reading .intro-progress,.reading .intro-steps{display:none}
+.reading .chain,.reading .chain-node,.reading .work-pair,.reading .terminal,.reading .timeline article,.reading .cert-list,.reading .cert-item,.reading .disciplines details{transform:none!important;opacity:1!important}
+.reading .terminal-body p{opacity:1!important}.reading .tools .work-pair{display:grid}.reading .chain-connector{transform:none!important}
+@media(max-width:1100px) and (min-width:701px){.cinema .tool-project,.cinema .recognition{flex-basis:90%;padding:28px}.cinema .timeline article{padding:28px}.cinema .timeline article h3{font-size:31px}.cinema .timeline article p{font-size:13px}.cinema .experience.reel-stage{gap:5%}.cinema .research-copy{padding:25px}.cinema .research-copy .secondary{font-size:12px!important}.cinema .research-copy .button{font-size:12px;padding:12px 15px;gap:10px}.cinema .cert-item{flex-basis:250px}.cinema .cert-item h3{font-size:36px}}
+@media(max-height:790px) and (min-width:701px){.cinema .reel-stage{padding-top:20px;padding-bottom:65px}.cinema .reel .section-heading{margin-bottom:18px}.cinema .reel .section-heading h2{font-size:42px}.cinema .reel .section-heading .eyebrow{margin-bottom:9px}.cinema .research-copy{padding:22px 28px}.cinema .research-copy h3{font-size:30px}.cinema .research-copy>p:not(.eyebrow){font-size:12px}.cinema .research-copy .eyebrow{margin-bottom:12px}.cinema .research-copy .light{margin-top:15px;min-height:45px;padding:10px 16px}.cinema .reference{margin-top:10px}.cinema .timeline{min-height:360px}.cinema .timeline article h3{margin-top:55px;font-size:31px}.cinema .timeline article p{font-size:13px}.cinema .credentials h2{font-size:40px}.cinema .credentials.reel-stage{gap:10px}.cinema .cert-window{max-height:310px}.cinema .cert-seal{width:55px;height:55px}.cinema .cert-item h3{font-size:34px}.cinema .contact h2{font-size:105px}.cinema .contact .socials{margin-top:30px}}
+@media(max-width:700px){#reading-mode{font-size:9px;padding:7px 9px;min-height:32px}nav{gap:12px}.header nav>a:first-child{display:none}.cinema .reel-stage{width:88%;padding:25px 0 65px;min-height:540px}.cinema .reel .section-heading{margin-bottom:20px;display:block}.cinema .reel .section-heading h2{font-size:36px}.cinema .reel .section-heading .eyebrow{font-size:10px;margin-bottom:10px}.cinema .reel .section-heading>p{font-size:11px;line-height:1.5;margin-top:12px}.cinema .reel .section-heading>p br{display:none}.cinema .reel-controls{gap:7px;bottom:15px}.cinema .reel-controls button{font-size:9px;padding:8px 11px;min-height:35px}.cinema .research-feature{display:flex;flex-direction:column;max-height:none;border-radius:10px}.cinema .research-art{flex:0 0 42%;min-height:155px}.cinema .research-copy{padding:18px 20px;flex:1;justify-content:center}.cinema .research-copy .eyebrow{font-size:9px;margin-bottom:10px}.cinema .research-copy h3{font-size:25px;margin-bottom:4px}.cinema .research-copy h3 br{display:none}.cinema .research-copy>p:not(.eyebrow){font-size:11px;line-height:1.5;margin-top:8px}.cinema .research-copy .secondary{font-size:10px!important}.cinema .research-copy .light{margin-top:12px;min-height:38px;font-size:10px;padding:9px 13px}.cinema .reference{font-size:8px;margin-top:8px}.cinema .art-label{top:13px;font-size:8px;left:15px}.cinema .chain{width:85%;margin-top:0}.cinema .chain-node{height:65px;padding:11px 8px}.cinema .chain-node strong{font-size:12px}.cinema .chain-node span{font-size:8px}.cinema .chain-note{bottom:13px;left:15px;font-size:9px;max-width:none}.cinema .art-bottom{display:none}.cinema .work-pair{gap:20px}.cinema .tool-project,.cinema .recognition{flex-basis:100%;padding:24px;justify-content:flex-start}.cinema .tool-project h3{font-size:32px}.cinema .tool-project .eyebrow,.cinema .tool-project>p{max-width:none}.cinema .tool-project>p{font-size:12px;margin-top:13px}.cinema .tool-project .eyebrow{font-size:10px;margin-bottom:17px}.cinema .terminal{position:relative;inset:auto;min-height:0;margin-top:20px;flex:1;max-height:205px;overflow:hidden}.cinema .terminal-body{font-size:11px;padding:16px}.cinema .terminal-body small{font-size:9px;float:right;display:inline;margin-left:0}.cinema .tool-project .project-link{max-width:none;margin-top:auto;padding-top:18px;font-size:11px}.cinema .recognition h3{font-size:44px;margin-top:25px}.cinema .recognition .eyebrow{margin-top:15px}.cinema .recognition>p{font-size:13px}.cinema .recognition .project-link{font-size:11px;margin-top:auto}.cinema .recognition-mark{font-size:250px;top:-15px;right:-25px}.cinema .approach{padding-top:65px;padding-bottom:65px}.cinema .experience.reel-stage{display:flex;gap:28px;justify-content:center}.cinema .experience-intro{align-self:stretch}.cinema .experience-intro h2{font-size:36px}.cinema .experience-intro p:not(.eyebrow){font-size:11px;margin:15px 0;max-width:300px}.cinema .experience-intro .eyebrow{font-size:10px;margin-bottom:13px}.cinema .experience-intro .text-link{font-size:11px;padding:5px 0}.cinema .timeline{width:100%;height:auto;min-height:0;flex:1;max-height:340px;margin:0}.cinema .timeline article{padding:24px}.cinema .career-year{font-size:92px}.cinema .timeline article h3{font-size:28px;margin-top:46px;margin-bottom:7px}.cinema .timeline article .date{font-size:10px;margin-bottom:10px}.cinema .timeline article .role{font-size:11px;line-height:1.4;display:block}.cinema .timeline article p{font-size:11px;margin-top:12px;line-height:1.6}.cinema .experience .reel-controls{gap:5px}.cinema .experience .reel-controls button{padding:8px;font-size:8px}.cinema .credentials>div:first-child{display:block;padding:0}.cinema .credentials h2{font-size:36px}.cinema .credentials>div>p:not(.eyebrow){font-size:11px;margin:16px 0;max-width:290px}.cinema .credentials .text-link{font-size:11px;padding:5px 0}.cinema .credentials.reel-stage{gap:15px}.cinema .cert-window{max-height:350px;padding:15px 2px 20px}.cinema .cert-list{gap:18px}.cinema .cert-item{flex-basis:240px;padding:22px}.cinema .cert-item h3{font-size:37px}.cinema .cert-seal{width:66px;height:66px}.cinema .contact h2{font-size:85px}.cinema .contact.reel-stage{padding-top:40px}.cinema .contact-bottom p{font-size:12px}.cinema .contact-bottom .button{min-height:45px;font-size:12px;margin-top:25px}.cinema .contact .socials{margin-top:35px;gap:20px;font-size:10px}.cinema .contact .eyebrow{font-size:9px}.cinema .proof{padding:15px 0}}
+@media(max-width:360px){.cinema .reel .section-heading h2,.cinema .credentials h2,.cinema .experience-intro h2{font-size:31px}.cinema .research-copy{padding:14px}.cinema .research-copy h3{font-size:22px}.cinema .research-copy .secondary{font-size:9px!important}.cinema .research-copy .light{margin-top:8px}.cinema .research-art{min-height:145px}.cinema .timeline article{padding:20px}.cinema .timeline article h3{font-size:25px}.cinema .experience.reel-stage{gap:20px}.cinema .terminal-body{padding:13px 10px}.cinema .terminal-body small{font-size:8px}.cinema .contact h2{font-size:74px}}
+.cinema .credentials>div:first-child,.cinema .credentials .cert-window{width:100%;align-self:stretch}.cinema .timeline{overflow:clip}.cinema .timeline article>*{opacity:0;transition:opacity .15s}.cinema .timeline article.is-active>*{opacity:1}.cinema .timeline article{background:linear-gradient(130deg,#1b2d44,#0d192a)}
+/* Connected scene entrances and exits, continuously scrubbed in either direction.
+   Adjacent pinned chapters overlap their transition space, so one recedes while
+   the next arrives. Stage transforms never change native document scroll. */
+.cinema .reel{background:transparent;isolation:isolate;--departure:0;--chapter-opacity:1;--chapter-scale:1;--chapter-y:0px;--chapter-tilt:0deg;--chapter-radius:0px}
+.cinema .reel+.reel{margin-top:-20vh}
+.cinema .reel::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:var(--chapter-background,#080d18);mask-image:linear-gradient(to bottom,transparent,#000 28vh,#000 calc(100% - 28vh),transparent);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 28vh,#000 calc(100% - 28vh),transparent)}
+.cinema .research-reel{--chapter-background:radial-gradient(ellipse at 15% 55%,#172a43,#080d18 80%)}
+.cinema .tools-reel{--chapter-background:#0d1624}
+.cinema .experience-reel{--chapter-background:radial-gradient(ellipse at 85% 60%,#1d344f,#080d18 75%)}
+.cinema .credentials-reel{--chapter-background:#c6d6e8}
+.cinema .contact-reel{--chapter-background:#080d18}
+.cinema .reel .reel-stage{transform:perspective(1600px) translate3d(0,var(--chapter-y),0) scale(var(--chapter-scale)) rotateX(var(--chapter-tilt));opacity:var(--chapter-opacity);transform-origin:center center;will-change:transform,opacity;border-radius:var(--chapter-radius)}
+.cinema .credentials.reel-stage{background:#c6d6e8;box-shadow:0 0 0 3vw #c6d6e8}
+.cinema .reel .section-heading{transform:none;opacity:1}
+.cinema .research-feature{transform:none}
+.cinema .approach{--section-entry:1;transform:translate3d(0,calc((1 - var(--section-entry))*65px),0) scale(calc(.94 + var(--section-entry)*.06));opacity:calc(.15 + var(--section-entry)*.85);transform-origin:center top}
+.cinema .proof{transition:none}
+.reading .reel:before{display:none}.reading .reel-stage,.reading .approach{transform:none!important;opacity:1!important;border-radius:0!important}
+@media(max-width:700px){.cinema .reel+.reel{margin-top:-14vh}.cinema .reel .reel-stage{transform:translate3d(0,calc(var(--chapter-y)*.6),0) scale(var(--chapter-scale))}.cinema .credentials.reel-stage{box-shadow:0 0 0 4vw #c6d6e8}}
+/* Outgoing controls retire before the following chapter reaches them. */
+.cinema .reel .reel-controls,.cinema .reel .reel-progress{opacity:clamp(0,calc(1 - var(--departure)*7),1)}
+.header{background:#080d18}
+/* Opening → research: fly through the trust-boundary sculpture into an iris.
+   The repeated proof strip stays available in reading mode; cinematic mode
+   connects these two scenes directly instead of inserting a static interlude. */
+.cinema .intro-sequence{--handoff:0;isolation:isolate}
+.cinema #proof{display:none}
+.cinema .research-reel{margin-top:-24vh}
+.cinema .intro-sequence .hero-copy{transform:translate3d(calc(var(--handoff)*-90px),calc(var(--handoff)*-30px),0);opacity:calc(1 - var(--handoff)*1.35);will-change:transform,opacity}
+.cinema .intro-sequence .visual{transform:translate3d(calc(var(--handoff)*-16vw),0,0) scale(calc(1 + var(--handoff)*.45));transform-origin:center;will-change:transform;opacity:clamp(0,calc(1 - max(0,var(--handoff) - .68)*3.125),1)}
+.cinema .intro-sequence .visual-top,.cinema .intro-sequence .scene-control,.cinema .intro-sequence .annotation,.cinema .intro-sequence .hero-bottom{opacity:clamp(0,calc(1 - var(--handoff)*3),1)}
+.cinema .research-reel .reel-stage{clip-path:circle(calc(10% + var(--arrival)*130%) at 72% 15%);transform:translate3d(0,calc(var(--chapter-y)*.5),0) scale(calc(.92 + var(--arrival)*.08 - var(--departure)*.09))}
+/* Tooling → approach: the old panel peels away; a scanner reveals the method. */
+.cinema .tools-reel .reel-stage{transform:perspective(1600px) translate3d(calc(var(--departure)*-95px),var(--chapter-y),0) scale(var(--chapter-scale)) rotateZ(calc(var(--departure)*-4deg)) rotateX(var(--chapter-tilt));transform-origin:20% 50%}
+.cinema .approach{position:relative;z-index:2;margin-top:-12vh;padding-top:95px;--scan:0;opacity:1;transform:perspective(1400px) rotateY(calc((1 - var(--scan))*7deg));transform-origin:left center;clip-path:polygon(0 0,calc(var(--scan)*112%) 0,calc(var(--scan)*112% - (1 - var(--scan))*12%) 100%,0 100%);background:linear-gradient(110deg,#0d1d31,#080d18 65%)}
+.cinema .approach:before{content:'';position:absolute;top:0;bottom:0;width:3px;left:calc(var(--scan)*112% - 1px);background:linear-gradient(transparent,#c1e3ff 25%,#7cb5eb 75%,transparent);box-shadow:0 0 22px 5px #8ecbff66;transform:skewX(-7deg);opacity:clamp(0,calc((1 - var(--scan))*5),1);pointer-events:none}
+.cinema .approach .section-heading{transform:translateY(calc((1 - var(--scan))*18px));opacity:calc(.4 + var(--scan)*.6)}
+.reading .hero-copy,.reading .intro-sequence .visual{transform:none!important;opacity:1!important}.reading .approach{clip-path:none!important;background:none}.reading .approach:before{display:none}
+@media(max-width:700px){.cinema .research-reel{margin-top:-16vh}.cinema .intro-sequence .visual{transform:translate3d(0,calc(var(--handoff)*-80px),0) scale(calc(1 + var(--handoff)*.25))}.cinema .approach{margin-top:-8vh;padding-top:70px}.cinema .tools-reel .reel-stage{transform:translate3d(calc(var(--departure)*-45px),calc(var(--chapter-y)*.6),0) scale(var(--chapter-scale)) rotateZ(calc(var(--departure)*-2deg))}}
+.cinema .reel,.cinema .approach{overflow:clip}
+/* Research → tools: fold the evidence panel into a frame, then open that frame
+   into the next scene. This is separate from both the opening iris and scanner. */
+.cinema .research-reel .research-feature{transform:perspective(1300px) rotateX(calc(var(--departure)*24deg)) rotateY(calc(var(--departure)*-9deg)) scale(calc(1 - var(--departure)*.16));transform-origin:50% 65%;will-change:transform}
+.cinema .research-reel .research-art{filter:saturate(calc(1 - var(--departure)*.7))}
+.cinema .tools-reel .reel-stage{clip-path:inset(calc((1 - var(--arrival))*38%) calc((1 - var(--arrival))*36%) round calc((1 - var(--arrival))*32px));transform-origin:50% 58%}
+.cinema .tools-reel .work-window{position:relative;transform:perspective(1200px) rotateX(calc((1 - var(--arrival))*-13deg)) scale(calc(.88 + var(--arrival)*.12));transform-origin:50% 10%;will-change:transform}
+.cinema .tools-reel .section-heading{transform:translate3d(0,calc((1 - var(--arrival))*65px),0);opacity:calc(.15 + var(--arrival)*.85)}
+.cinema .tools-reel .work-window::after{content:'';position:absolute;inset:7%;border:1px solid #c8e2ff;border-radius:16px;box-shadow:0 0 35px #8bbbea33,inset 0 0 35px #8bbbea22;transform:scale(calc(.65 + var(--arrival)*.35));opacity:calc(4*var(--arrival)*(1 - var(--arrival)));pointer-events:none}
+.reading .work-window,.reading .research-feature{transform:none!important;filter:none!important}.reading .work-window::after{display:none}
+@media(max-width:700px){.cinema .tools-reel .reel-stage{clip-path:inset(calc((1 - var(--arrival))*28%) calc((1 - var(--arrival))*25%) round calc((1 - var(--arrival))*22px))}.cinema .research-reel .research-feature{transform:perspective(1000px) rotateX(calc(var(--departure)*16deg)) scale(calc(1 - var(--departure)*.1))}}
+.cinema .approach:before{left:calc(var(--scan)*112% - 8px);transform:skewX(-4deg);transform-origin:top left}
+/* Keep the incoming title intact while its showcase frame opens. */
+.cinema .tools-reel .reel-stage{clip-path:none}
+.cinema .tools-reel .work-window{clip-path:inset(calc((1 - var(--arrival))*30%) calc((1 - var(--arrival))*28%) round calc((1 - var(--arrival))*25px))}
+
+/* The scanner reveals only the backdrop. Text always stays inside its readable box. */
+.cinema .approach{clip-path:none;background:none;isolation:isolate}
+.cinema .approach::after{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(110deg,#0d1d31,#080d18 65%);clip-path:polygon(0 0,calc(var(--scan)*112%) 0,calc(var(--scan)*112% - (1 - var(--scan))*12%) 100%,0 100%)}
+.cinema .approach .section-heading{padding-left:3px;padding-right:3px}
+.reading .approach::after{display:none}
+/* Keep all method text comfortably inside the clipped background, including
+   the numbered rows. Only the decorative scanner moves across this section. */
+.cinema .approach{padding-left:clamp(22px,3.4vw,54px);padding-right:clamp(22px,3.4vw,54px);transform:none}
+.cinema .approach .section-heading{padding:0;transform:none;opacity:1}
+.cinema .approach h2{background:none;color:#d8e7fc;-webkit-text-fill-color:currentColor}
+.cinema .approach .disciplines details{transform:none;opacity:1}
+@media(max-width:700px){.cinema .approach{padding-left:20px;padding-right:20px}.cinema .approach .section-heading h2{font-size:clamp(34px,9vw,46px)}}

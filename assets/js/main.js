@@ -1,0 +1,61 @@
+const motionQuery = matchMedia('(prefers-reduced-motion: reduce)');
+const motionButton = document.querySelector('#motion');
+const sequence = document.querySelector('.intro-sequence');
+const phases = [...document.querySelectorAll('.hero-phase')];
+const steps = [...document.querySelectorAll('.intro-step')];
+const modeButtons = [...document.querySelectorAll('[data-mode]')];
+const captions = ['An abstract model of system boundaries. Scroll to inspect.', 'Separate the layers. Examine what each one trusts.', 'Follow the connections. Understand the wider impact.'];
+let sculpture, paused = motionQuery.matches, progress = 0, activeMode = 0, ticking = false;
+function setMotion() {
+  motionButton.setAttribute('aria-pressed', String(paused));
+  motionButton.innerHTML = paused ? 'Resume motion <span aria-hidden="true">▷</span>' : 'Pause motion <span aria-hidden="true">Ⅱ</span>';
+  sculpture?.setPaused(paused);
+}
+function showPhase(mode) {
+  activeMode = mode;
+  phases.forEach((phase, index) => { phase.hidden = index !== mode; });
+  steps.forEach((step, index) => step.classList.toggle('active', index === mode));
+  modeButtons.forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.mode) === mode)));
+  document.querySelector('#scene-caption').textContent = captions[mode];
+}
+function updateScroll() {
+  const extent = sequence.offsetHeight - innerHeight;
+  if (!motionQuery.matches && !document.documentElement.classList.contains("reading") && extent > 100) {
+    progress = Math.max(0, Math.min(1, -sequence.getBoundingClientRect().top / extent));
+    showPhase(progress < .31 ? 0 : progress < .68 ? 1 : 2);
+    sculpture?.setProgress(progress);
+    sequence.style.setProperty('--progress', progress);
+    const exit = Math.max(0, Math.min(1, (innerHeight * 1.48 - sequence.getBoundingClientRect().bottom) / (innerHeight * .82)));
+    const handoff = exit * exit * (3 - 2 * exit);
+    sequence.style.setProperty('--handoff', handoff);
+    sculpture?.setHandoff(handoff);
+  }
+  ticking = false;
+}
+addEventListener('scroll', () => {
+  if (!ticking) { ticking = true; requestAnimationFrame(updateScroll); }
+}, { passive: true });
+addEventListener('resize', updateScroll);
+modeButtons.forEach(button => button.addEventListener('click', () => {
+  const mode = Number(button.dataset.mode);
+  showPhase(mode);
+  sculpture?.setMode(mode);
+}));
+motionButton.addEventListener('click', () => { paused = !paused; setMotion(); });
+motionQuery.addEventListener('change', () => { paused = motionQuery.matches; setMotion(); updateScroll(); });
+document.querySelector('#year').textContent = new Date().getFullYear();
+setMotion(); updateScroll();
+if (!navigator.connection?.saveData) {
+  import('./sculpture.js').then(({ createSculpture }) => {
+    sculpture = createSculpture(document.querySelector('#scene'), false);
+    sculpture.setPaused(paused);
+    sculpture.setProgress(progress);
+  }).catch(e => { motionButton.hidden = true; console.warn('Using static scene fallback', e.message); });
+} else { motionButton.hidden = true; }
+let readingView = motionQuery.matches;
+addEventListener('portfolio:reading', event => {
+  readingView = event.detail;
+  sculpture?.setPaused(readingView || paused);
+  if (readingView) { showPhase(0); sculpture?.setMode(0); sculpture?.setHandoff(0); sequence.style.setProperty("--handoff", 0); }
+});
+import('./narrative.js').catch(error => console.warn('Reading layout retained', error.message));
