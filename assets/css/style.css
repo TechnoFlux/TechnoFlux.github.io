@@ -17,3 +17,6 @@
 
 @keyframes phase-enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}.hero-phase{animation:phase-enter .4s ease both}@media(prefers-reduced-motion:reduce){.hero-phase{animation:none}}
 .header{position:sticky;top:0}.intro-sequence .hero{top:94px;height:calc(100vh - 94px);min-height:620px}.hero-phases{display:flow-root}@media(max-width:700px){.intro-sequence .hero{top:75px;height:calc(100svh - 75px);min-height:700px}.hero-phases{min-height:278px}.intro-sequence .visual{top:405px}.hero-actions{margin-top:8px}}@media(prefers-reduced-motion:reduce){.intro-sequence .hero{top:0}}
+
+/* Keep the personal wordmark clear alongside navigation on small phones. */
+@media(max-width:700px){.brand{font-size:16px;letter-spacing:-.5px;gap:8px;white-space:nowrap}.brand svg{width:20px;flex-shrink:0}}
