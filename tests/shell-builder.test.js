@@ -36,3 +36,20 @@ test('export carries prerequisites and the decoded form, not just the wrapper', 
   for (const value of [session.payload, session.decoded, session.listener, session.requirements, '127.0.0.1:4444']) assert.ok(exported.includes(value));
   assert.ok(exported.includes('nothing was executed'));
 });
+
+test('Netcat listener follows the selected port', () => {
+ assert.equal(buildSession({...base,port:'8888'}).listener,'nc -lvnp 8888');
+});
+test('catalog applies validated callback settings across every language', async () => {
+ const {buildCatalog}=await import('../assets/js/shell-catalog.js');
+ const entries=buildCatalog({host:'lab.example.test',port:'34567'});
+ assert.equal(new Set(entries.map(e=>e.id)).size,12);
+ for(const e of entries){assert.ok(e.command.includes('lab.example.test'),e.id);assert.ok(e.command.includes('34567'),e.id);}
+ assert.throws(()=>buildCatalog({host:'lab;id',port:'8888'}));
+});
+test('PowerShell encoded variant decodes as UTF-16LE to the visible script',async()=>{
+ const {buildCatalog}=await import('../assets/js/shell-catalog.js');
+ const entry=buildCatalog({host:'127.0.0.1',port:'8888'}).find(e=>e.id==='powershell');
+ const encoded=entry.encoded.split(' ').at(-1);
+ assert.equal(Buffer.from(encoded,'base64').toString('utf16le'),entry.command);
+});

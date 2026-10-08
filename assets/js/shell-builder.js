@@ -29,8 +29,8 @@ export function buildSession(input) {
     requirements = 'Target: Python 3 on a POSIX system, a working /bin/sh and PTY support. Not a Windows example.';
     mechanism = 'Python opens a socket, duplicates its descriptor onto stdin/stdout/stderr, then starts /bin/sh under a pseudo-terminal. A PTY does not automatically synchronize the local terminal’s size or settings.';
   }
-  return { settings, listener: `ncat --listen --verbose ${port}`, decoded, plain, payload, requirements, mechanism };
+  return { settings, listener: `nc -lvnp ${port}`, decoded, plain, payload, requirements, mechanism };
 }
 export function sessionMarkdown(session) {
-  return `# Field notes — shell session\n\nRuntime: ${session.settings.runtime}\nRepresentation: ${session.settings.representation}\nCallback: ${session.settings.host}:${session.settings.port}\n\n## Listener (Ncat)\n\n\`\`\`sh\n${session.listener}\n\`\`\`\n\n## Target-side command\n\n\`\`\`sh\n${session.payload}\n\`\`\`\n\n## Underlying command\n\n\`\`\`\n${session.decoded}\n\`\`\`\n\n${session.requirements}\n\n${session.mechanism}\n\nEncoding changes representation, not privileges or detectability. Generated locally; nothing was executed by the page.\n\nSource: https://technoflux.github.io/field-notes/\n`;
+  return `# Field notes — shell session\n\nRuntime: ${session.settings.runtime}\nRepresentation: ${session.settings.representation}\nCallback: ${session.settings.host}:${session.settings.port}\n\n## Listener (Netcat)\n\n\`\`\`sh\n${session.listener}\n\`\`\`\n\n## Target-side command\n\n\`\`\`sh\n${session.payload}\n\`\`\`\n\n## Underlying command\n\n\`\`\`\n${session.decoded}\n\`\`\`\n\n${session.requirements}\n\n${session.mechanism}\n\nEncoding changes representation, not privileges or detectability. Generated locally; nothing was executed by the page.\n\nSource: https://technoflux.github.io/field-notes/\n`;
 }
