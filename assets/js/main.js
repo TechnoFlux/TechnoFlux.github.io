@@ -8,7 +8,7 @@ const captions = ['Reconnaissance & discovery: map the attack surface and enumer
 let sculpture, paused = motionQuery.matches, progress = 0, activeMode = -1, ticking = false;
 function setMotion() {
   motionButton.setAttribute('aria-pressed', String(paused));
-  motionButton.innerHTML = paused ? 'Resume motion <span aria-hidden="true">▷</span>' : 'Pause motion <span aria-hidden="true">Ⅱ</span>';
+  motionButton.textContent = paused ? 'Resume motion' : 'Pause motion';
   sculpture?.setPaused(paused);
 }
 function showPhase(mode) {
@@ -62,4 +62,4 @@ addEventListener('portfolio:reading', event => {
   sculpture?.setPaused(readingView || paused);
   if (readingView) { showPhase(0); sculpture?.setMode(0); sculpture?.setHandoff(0); sequence.style.setProperty("--handoff", 0); }
 });
-import('./narrative.js?v=20261008-4').catch(error => console.warn('Reading layout retained', error.message));
+import('./narrative.js?v=20261008-mobile11').catch(error => console.warn('Reading layout retained', error.message));

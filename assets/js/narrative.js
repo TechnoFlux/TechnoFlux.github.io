@@ -116,7 +116,7 @@ function measure() {
   height = matchMedia('(max-width:700px)').matches ? (viewportProbe.offsetHeight || innerHeight) : innerHeight;
   header = document.querySelector('.header').offsetHeight;
   root.style.setProperty('--viewport-height', `${height}px`);
-  root.style.setProperty('--chapter-height', `${Math.max(540, height - header)}px`);
+  root.style.setProperty('--chapter-height', `${matchMedia('(max-width:700px)').matches ? height - header : Math.max(540, height - header)}px`);
   root.style.setProperty('--header-height', `${header}px`);
   request();
 }
