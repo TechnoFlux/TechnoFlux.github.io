@@ -4,7 +4,7 @@ const sequence = document.querySelector('.intro-sequence');
 const phases = [...document.querySelectorAll('.hero-phase')];
 const steps = [...document.querySelectorAll('.intro-step')];
 const modeButtons = [...document.querySelectorAll('[data-mode]')];
-const captions = ['An abstract model of system boundaries. Scroll to inspect.', 'Separate the layers. Examine what each one trusts.', 'Follow the connections. Understand the wider impact.'];
+const captions = ['Reconnaissance: map the target and its exposed services.', 'Enumeration: examine services, identities and permissions for potential weaknesses.', 'Exploitation: validate a weakness and demonstrate its impact within the agreed scope.'];
 let sculpture, paused = motionQuery.matches, progress = 0, activeMode = -1, ticking = false;
 function setMotion() {
   motionButton.setAttribute('aria-pressed', String(paused));

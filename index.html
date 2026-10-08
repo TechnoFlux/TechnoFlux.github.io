@@ -8,9 +8,10 @@
 <link rel="canonical" href="https://technoflux.github.io/">
 <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="./assets/fonts/geist-wght.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="./assets/css/style.css?v=20261008-4">
-<link rel="stylesheet" href="./assets/css/narrative.css?v=20261008-4">
+<link rel="stylesheet" href="./assets/css/style.css?v=20261008-5">
+<link rel="stylesheet" href="./assets/css/narrative.css?v=20261008-5">
 <link rel="stylesheet" href="./assets/css/shell-lab.css?v=20261008-4">
+<link rel="stylesheet" href="./assets/css/controls.css?v=20261008-5">
 <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
 </head>
 <body>
@@ -38,9 +39,9 @@
 <div class="visual-top"><span id="scroll-label">Scroll to open the system ↓</span><button id="motion" type="button" aria-pressed="false">Pause motion <span aria-hidden="true">Ⅱ</span></button></div>
 <div class="annotation annotation-a" aria-hidden="true"><span class="annotation-line"></span>Trust boundary</div>
 <div class="annotation annotation-b" aria-hidden="true"><span class="tiny-dot"></span> Follow the unexpected</div>
-<div class="scene-control"><div class="segmented" role="group" aria-label="Explore the 3D model"><button data-mode="0" aria-pressed="true">Surface</button><button data-mode="1" aria-pressed="false">Inspect</button><button data-mode="2" aria-pressed="false">Trace</button></div><p id="scene-caption" aria-live="polite">An abstract view of a system. Explore its layers.</p></div>
+<div class="scene-control"><div class="segmented" role="group" aria-label="Explore the 3D model"><button data-mode="0" aria-pressed="true">Recon</button><button data-mode="1" aria-pressed="false">Enumeration</button><button data-mode="2" aria-pressed="false">Exploitation</button></div><p id="scene-caption" aria-live="polite">Reconnaissance: map the target and its exposed services.</p></div>
 </div>
-<div class="hero-bottom"><div class="intro-steps" aria-label="Current chapter"><span class="intro-step active">Understand</span><span class="intro-step">Investigate</span><span class="intro-step">Demonstrate</span></div><a href="#work">Skip to work & credentials <span aria-hidden="true">↓</span></a></div><div class="intro-progress" aria-hidden="true"></div>
+<div class="hero-bottom"><div class="intro-steps" aria-label="Current chapter"><span class="intro-step active">Recon</span><span class="intro-step">Enumeration</span><span class="intro-step">Exploitation</span></div><a href="#work">Skip to work & credentials <span aria-hidden="true">↓</span></a></div><div class="intro-progress" aria-hidden="true"></div>
 </section></div>
 <section class="proof" id="proof" aria-label="Credentials and public recognition">
 <div><span class="proof-label">Hands-on credentials</span><p>OSCE <i>/</i> OSWE <i>/</i> OSCP</p></div>
@@ -59,8 +60,8 @@
 </article>
 </section>
 <section class="tools section" id="tools"><div class="section-heading"><div><p class="eyebrow">From investigation to contribution</p><h2>Make the work<br>useful.</h2></div><p>Automate the repetition.<br> Share the evidence responsibly.</p></div><div class="work-pair">
-<article class="tool-project"><div class="project-heading"><span class="eyebrow">Open-source tooling</span><span class="language">Python</span></div><h3>Auto AD Recon</h3><p>Bringing repetitive Active Directory enumeration into a single workflow, built around NetExec.</p><div class="terminal" aria-label="Illustrative enumeration workflow"><div class="terminal-bar"><span></span><span></span><span></span><p>Enumeration workflow</p></div><div class="terminal-body"><p><span class="prompt">›</span> Authenticate <small>password / hash / null</small></p><p><span class="branch">├─</span> Enumerate <small>SMB + LDAP</small></p><p><span class="branch">├─</span> Inspect <small>ADCS / ACLs / trusts</small></p><p><span class="branch">└─</span> Collect <small>evidence for review</small></p></div></div><a class="project-link" href="https://github.com/TechnoFlux/auto-ad-recon-netexec" target="_blank" rel="noopener">Explore the source <span aria-hidden="true">↗</span></a></article>
-<article class="recognition"><div class="recognition-mark" aria-hidden="true">✳</div><span class="eyebrow">Responsible disclosure</span><h3>Useful work<br>leaves a trace.</h3><p>Named in the CERT-EU Hall of Fame for reporting publicly exposed sensitive information in December 2020.</p><a class="project-link" href="https://www.cert.europa.eu/hall-of-fame" target="_blank" rel="noopener">View the acknowledgement <span aria-hidden="true">↗</span></a></article>
+<article class="tool-project"><div class="project-heading"><span class="eyebrow">Open-source tooling</span><span class="language">Python</span></div><h3>Auto AD Recon</h3><p>A Python wrapper around NetExec for Active Directory enumeration, with SMB and LDAP checks and configurable session options.</p><div class="terminal" aria-label="Available NetExec wrapper options"><div class="terminal-bar"><span></span><span></span><span></span><p>Enumeration options</p></div><div class="terminal-body"><p>Protocols <small>SMB / LDAP</small></p><p>Session <small>null / password / hash</small></p><p>Checks <small>built-in / modules / both</small></p><p>Output <small>optional results file</small></p></div></div><a class="project-link" href="https://github.com/TechnoFlux/auto-ad-recon-netexec" target="_blank" rel="noopener">Explore the source <span aria-hidden="true">↗</span></a></article>
+<article class="recognition"><div class="recognition-mark" aria-hidden="true">✳</div><span class="eyebrow">Responsible disclosure</span><h3>Useful work<br> leaves a trace.</h3><p>Named in the CERT-EU Hall of Fame for reporting publicly exposed sensitive information in December 2020.</p><a class="project-link" href="https://www.cert.europa.eu/hall-of-fame" target="_blank" rel="noopener">View the acknowledgement <span aria-hidden="true">↗</span></a></article>
 </div>
 </section>
 <section class="approach section" id="approach">
@@ -108,6 +109,6 @@
 <section class="contact section" id="contact"><p class="eyebrow"><span class="status-dot"></span> Open to offensive security opportunities</p><h2>Let’s look<br>closer.</h2><div class="contact-bottom"><p>If careful testing, curiosity and a willingness to keep learning would be useful to your team, I’d like to contribute.</p><a href="https://www.linkedin.com/in/reverse-shell" target="_blank" rel="noopener" class="button primary">Start a conversation <span aria-hidden="true">↗</span></a></div><div class="socials"><a href="https://github.com/TechnoFlux" target="_blank" rel="noopener">GitHub ↗</a><a href="./field-notes/">Field notes ↗</a><a href="https://www.linkedin.com/in/reverse-shell" target="_blank" rel="noopener">LinkedIn ↗</a><a href="#home">Back to top ↑</a></div></section>
 </main>
 <footer><span>© <span id="year">2026</span> Abhishek Joshi</span><span>Stay curious. Verify carefully.</span></footer>
-<script type="module" src="./assets/js/main.js?v=20261008-4"></script>
+<script type="module" src="./assets/js/main.js?v=20261008-5"></script>
 </body>
 </html>

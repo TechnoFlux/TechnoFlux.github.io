@@ -42,7 +42,7 @@ document.addEventListener('click',async event=>{
 document.querySelector('#export-notes').addEventListener('click',()=>{
  const visible=entries.filter(e=>filter.value==='all'||e.id===filter.value||e.platform===filter.value);
  if(!visible.length)return;
- const text='# Shell quick reference\n\n## Listener\n\n```sh\n'+document.querySelector('#listener').textContent+'\n```\n\n'+visible.map(e=>`## ${e.name}\n\n${e.platform}; ${e.tested?'loopback tested':'not locally tested'}.\n\n\`\`\`\n${e.command}\n\`\`\`\n\n${e.notes}\n`).join('\n')+'\nGenerated locally. No command was executed by the page.\n';
- const url=URL.createObjectURL(new Blob([text],{type:'text/markdown;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='shell-cheatsheet.md';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ const text='# Reverse Shell Cheatsheet\n\n## Listener\n\n```sh\n'+document.querySelector('#listener').textContent+'\n```\n\n'+visible.map(e=>`## ${e.name}\n\n${e.platform}; ${e.tested?'loopback tested':'not locally tested'}.\n\n\`\`\`\n${e.command}\n\`\`\`\n\n${e.notes}\n`).join('\n')+'\nGenerated locally. No command was executed by the page.\n';
+ const url=URL.createObjectURL(new Blob([text],{type:'text/markdown;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='reverse-shell-cheatsheet.md';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
 update();
