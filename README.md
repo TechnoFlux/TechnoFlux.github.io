@@ -28,3 +28,15 @@ The résumé document is intentionally not included. The primary contact button 
 ## Third-party licenses
 
 Three.js and RoomEnvironment use the MIT license, included in `vendor/THREE-LICENSE.txt`. Geist and Bricolage Grotesque use the SIL Open Font License; their notices are in `assets/fonts/licenses/`.
+
+## Field notes & illustrative lab
+
+The homepage includes a scroll-driven, explicitly simulated listener → sudo policy → root transcript. It is an educational lab illustration, not a claim about a client engagement. It uses native scrolling and CSS transforms, with an ordinary transcript in reading mode.
+
+[`field-notes/`](field-notes/) contains a local command workbench and reference sheets for shells, web/API testing, Linux permissions, Active Directory and reporting. See its [implementation and validation notes](field-notes/README.md). The established shell primitives are attributed; the interface, validation and explanatory material are maintained in this repository.
+
+```sh
+npm test
+```
+
+No dependencies need installing. Tests require Node.js 22+; POSIX command syntax checks are skipped on Windows.

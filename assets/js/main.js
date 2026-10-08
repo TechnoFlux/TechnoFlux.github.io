@@ -62,4 +62,4 @@ addEventListener('portfolio:reading', event => {
   sculpture?.setPaused(readingView || paused);
   if (readingView) { showPhase(0); sculpture?.setMode(0); sculpture?.setHandoff(0); sequence.style.setProperty("--handoff", 0); }
 });
-import('./narrative.js?v=20261008-3').catch(error => console.warn('Reading layout retained', error.message));
+import('./narrative.js?v=20261008-4').catch(error => console.warn('Reading layout retained', error.message));

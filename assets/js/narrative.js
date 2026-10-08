@@ -28,9 +28,9 @@ function createReel(selector, kind, travel) {
   const entry = { reel, stage, kind, p: 0, bar };
   reels.push(entry); return entry;
 }
-function jump(entry, value) {
+function jump(entry, value, behavior = reading ? 'instant' : 'smooth') {
   const top = scrollY + entry.reel.getBoundingClientRect().top - header;
-  scrollTo({ top: top + (entry.reel.offsetHeight - entry.stage.offsetHeight) * value, behavior: reading ? 'instant' : 'smooth' });
+  scrollTo({ top: top + (entry.reel.offsetHeight - entry.stage.offsetHeight) * value, behavior });
 }
 function controls(entry, labels, values = labels.map((_, i) => i / Math.max(1, labels.length - 1))) {
   const group = document.createElement('div'); group.className = 'reel-controls'; group.setAttribute('role', 'group'); group.setAttribute('aria-label', `${entry.kind} chapters`);
@@ -60,6 +60,12 @@ const workTrack = document.querySelector('.work-pair');
 const workWindow = document.createElement('div'); workWindow.className = 'work-window';
 workTrack.before(workWindow); workWindow.append(workTrack);
 const terminalLines = [...document.querySelectorAll('.terminal-body p')];
+
+const shellLab = createReel('#shell-lab', 'shell-lab', 210);
+controls(shellLab, ['Connection', 'Permission', 'Root'], [.12, .5, .9]);
+const shellPanels = [...document.querySelectorAll('[data-shell-panel]')];
+const shellLines = shellPanels.map(panel => [...panel.querySelectorAll('.shell-line')]);
+const shellRoute = [...document.querySelectorAll('.shell-route>span')];
 
 const experience = createReel('#experience', 'experience', 200);
 const career = [...document.querySelectorAll('.timeline article')];
@@ -96,6 +102,7 @@ function mode() {
     e.stage.style.removeProperty('opacity');
   }
   for (const card of career) { card.inert = false; card.removeAttribute('aria-hidden'); }
+  for (const panel of shellPanels) { panel.inert = false; panel.removeAttribute('aria-hidden'); }
   // Inform the hero so the reading choice applies to the entire page.
   dispatchEvent(new CustomEvent('portfolio:reading', { detail: reading }));
   measure();
@@ -162,6 +169,29 @@ function update() {
       document.querySelector('.terminal').style.transform = `perspective(950px) rotateY(${-9 + Math.min(1,p*4)*9}deg) rotateX(${8-Math.min(1,p*4)*8}deg)`;
       terminalLines.forEach((line, i) => line.style.opacity = .18 + .82 * clamp(p * 8 - i + 1));
       setCurrent(entry, p < .5 ? 0 : 1);
+    }
+    if (entry.kind === 'shell-lab') {
+      // Native scroll is the timeline. No timers, typewriter loops or new WebGL scene.
+      const position = p < .25 ? 0 : p < .42 ? ease((p - .25) / .17) : p < .62 ? 1 : p < .8 ? 1 + ease((p - .62) / .18) : 2;
+      const current = Math.min(2, Math.round(position));
+      setCurrent(entry, current);
+      shellLab.stage.style.setProperty('--shell-root', ease(clamp((p - .65) / .22)));
+      shellRoute.forEach((node, i) => node.classList.toggle('is-reached', i <= current));
+      shellPanels.forEach((panel, i) => {
+        const offset = i - position;
+        panel.style.setProperty('--shell-offset', offset);
+        panel.style.opacity = clamp(1 - Math.abs(offset));
+        if (panel.getAttribute('aria-hidden') !== String(i !== current)) {
+          panel.setAttribute('aria-hidden', String(i !== current));
+          panel.inert = i !== current;
+        }
+        const starts = [0, .3, .68];
+        shellLines[i].forEach((line, j) => {
+          const reveal = i === 0 && j === 0 ? 1 : ease(clamp((p - starts[i] - j * .022) / .07));
+          line.style.opacity = reveal;
+          line.style.transform = `translate3d(0,${(1 - reveal) * 9}px,0)`;
+        });
+      });
     }
     if (entry.kind === 'experience') {
       const step = Math.min(3.999, p * 4);
@@ -234,4 +264,10 @@ for (const link of document.querySelectorAll('a[href^="#"]')) {
   });
 }
 mode();
-document.fonts.ready.then(measure);
+document.fonts.ready.then(() => {
+  measure();
+  // Wrapping sections changes their document positions after the browser's
+  // initial fragment jump. Restore a direct link once fonts and reels settle.
+  const target = reels.find(entry => `#${entry.stage.id}` === location.hash);
+  if (target && !reading) jump(target, 0, 'instant');
+});

@@ -20,3 +20,5 @@
 
 /* Keep the personal wordmark clear alongside navigation on small phones. */
 @media(max-width:700px){.brand{font-size:16px;letter-spacing:-.5px;gap:8px;white-space:nowrap}.brand svg{width:20px;flex-shrink:0}}
+
+@media(max-width:1050px){.header .field-notes-nav{display:none}}
