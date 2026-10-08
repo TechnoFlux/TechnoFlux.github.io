@@ -46,7 +46,7 @@ motionQuery.addEventListener('change', () => { paused = motionQuery.matches; set
 document.querySelector('#year').textContent = new Date().getFullYear();
 setMotion(); updateScroll();
 if (!navigator.connection?.saveData) {
-  import('./sculpture.js').then(({ createSculpture }) => {
+  import('./sculpture.js?v=20261008-1').then(({ createSculpture }) => {
     sculpture = createSculpture(document.querySelector('#scene'), false);
     sculpture.setPaused(paused);
     sculpture.setProgress(progress);
@@ -58,4 +58,4 @@ addEventListener('portfolio:reading', event => {
   sculpture?.setPaused(readingView || paused);
   if (readingView) { showPhase(0); sculpture?.setMode(0); sculpture?.setHandoff(0); sequence.style.setProperty("--handoff", 0); }
 });
-import('./narrative.js').catch(error => console.warn('Reading layout retained', error.message));
+import('./narrative.js?v=20261008-1').catch(error => console.warn('Reading layout retained', error.message));
